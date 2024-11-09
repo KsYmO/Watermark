@@ -7,6 +7,7 @@ def add_functions(ui, MainWindow):
     ui.img_choose.clicked.connect(lambda: choose_img(ui, MainWindow))
     ui.path_choose.clicked.connect(lambda: choose_file(ui, MainWindow))
     ui.textEdit.textChanged.connect(lambda: text_watermark(ui))
+    ui.radioButton_olymp.clicked.connect(lambda: olympic_sign(ui))
 
     ui.create_btn.clicked.connect(lambda: create_image(ui))
 
@@ -86,10 +87,58 @@ def create_image(ui):
             watermarked_image.show()
             watermarked_image.save("output_image_with_image_watermark.png")
             print("Watermarked image created successfully.")
+        elif hasattr(ui, 'file_path') and hasattr(ui, 'sign') and ui.sign:
+            img = Image.new("RGBA", (300, 150), (255, 255, 255, 0))
+            draw = ImageDraw.Draw(img)
+
+            # Define ring colors and positions
+            colors = ["blue", "black", "red", "yellow", "green"]
+            positions = [(40, 40), (120, 40), (200, 40), (80, 80), (160, 80)]
+            radius = 30
+
+            # Draw the rings
+            for color, pos in zip(colors, positions):
+                x, y = pos
+                draw.ellipse([x - radius, y - radius, x + radius,
+                              y + radius], outline=color, width=5)
+
+            # Save the image
+            img.save('olympic_rings.png')
+            print(f"Olympic rings saved in main directory")
+            olympic_rings_path = 'olympic_rings.png'
+
+            # Open base image and Olympic rings watermark
+            base_image = Image.open(ui.file_path).convert("RGBA")
+            watermark_image = Image.open(olympic_rings_path).convert("RGBA")
+
+            # Resize watermark and position it on the base image
+            scale_factor = 0.3
+            new_width = int(base_image.width * scale_factor)
+            new_height = int(
+                new_width * (watermark_image.height / watermark_image.width))
+            watermark_image = watermark_image.resize(
+                (new_width, new_height), Image.LANCZOS)
+
+            # Create a layer for the watermark and position it at bottom-right
+            watermark_layer = Image.new(
+                "RGBA", base_image.size, (255, 255, 255, 0))
+            padding = 10
+            position = (base_image.width - watermark_image.width - padding,
+                        base_image.height - watermark_image.height - padding)
+            watermark_layer.paste(watermark_image, position, watermark_image)
+
+            # Composite images and save
+            watermarked_image = Image.alpha_composite(
+                base_image, watermark_layer)
+            watermarked_image.show()
+            watermarked_image.save("output_image_with_olympic_watermark.png")
+            print("Olympic rings watermark added successfully.")
+
         else:
             print("Please select both an image and a watermark (text or image) first.")
     except Exception as e:
         print(f"Error creating watermark: {e}")
+
 
 def choose_file(ui, MainWindow):
     file_path, _ = QFileDialog.getOpenFileName(
@@ -116,4 +165,8 @@ def choose_img(ui, MainWindow):
 
 def text_watermark(ui):
     ui.text_watermark = ui.textEdit.toPlainText()  # Store input text as an attribute
-    #print(f'Watermark text: {ui.text_watermark}')
+    # print(f'Watermark text: {ui.text_watermark}')
+
+
+def olympic_sign(ui):
+  ui.sign = ui.radioButton_olymp.isChecked()

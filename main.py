@@ -16,15 +16,17 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
-        MainWindow.setStyleSheet("")
+        MainWindow.setStyleSheet("background-color: rgba(255, 255, 255, 0.6);\n"
+                                 "backdrop-filter: blur(10px);\n"
+                                 "\n"
+                                 "")
         MainWindow.setAnimated(True)
-        MainWindow.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        MainWindow.setWindowOpacity(0.9)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("background: rgb(34,193,195);\n"
+                                         "background: linear-gradient(42deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);")
         self.centralwidget.setObjectName("centralwidget")
-        self.centralwidget.setStyleSheet("background-color: rgba(255, 255, 255, 0.1); \n")
         self.frame = QtWidgets.QFrame(parent=self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(160, 140, 521, 321))
+        self.frame.setGeometry(QtCore.QRect(150, 130, 521, 321))
         self.frame.setStyleSheet("background-color: rgb(255, 255, 255);\n"
                                  "border-radius: 20%;")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -39,7 +41,7 @@ class Ui_MainWindow(object):
         self.label_name.setFont(font)
         self.label_name.setObjectName("label_name")
         self.path_choose = QtWidgets.QToolButton(parent=self.frame)
-        self.path_choose.setGeometry(QtCore.QRect(230, 170, 141, 22))
+        self.path_choose.setGeometry(QtCore.QRect(220, 200, 141, 22))
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -56,7 +58,7 @@ class Ui_MainWindow(object):
                                        "background-color: #fdbb2d")
         self.path_choose.setObjectName("path_choose")
         self.label_2 = QtWidgets.QLabel(parent=self.frame)
-        self.label_2.setGeometry(QtCore.QRect(40, 170, 181, 16))
+        self.label_2.setGeometry(QtCore.QRect(30, 200, 181, 16))
         font = QtGui.QFont()
         font.setFamily("Rubik")
         font.setPointSize(12)
@@ -71,7 +73,7 @@ class Ui_MainWindow(object):
         self.radioButton_img.setFont(font)
         self.radioButton_img.setObjectName("radioButton_img")
         self.img_choose = QtWidgets.QToolButton(parent=self.frame)
-        self.img_choose.setGeometry(QtCore.QRect(180, 110, 100, 22))
+        self.img_choose.setGeometry(QtCore.QRect(180, 110, 81, 22))
         font = QtGui.QFont()
         font.setFamily("Rubik")
         font.setPointSize(12)
@@ -88,8 +90,7 @@ class Ui_MainWindow(object):
         self.textEdit.viewport().setProperty(
             "cursor", QtGui.QCursor(QtCore.Qt.CursorShape.IBeamCursor))
         self.textEdit.setStyleSheet("border-radius: 15% 10%;\n"
-                                    "background-color: #fdbb2d; \n"
-                                    "padding-left: 10px; \n")
+                                    "background-color: #fdbb2d")
         self.textEdit.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.textEdit.setObjectName("textEdit")
@@ -110,6 +111,13 @@ class Ui_MainWindow(object):
         self.create_btn.setStyleSheet("border-radius: 15% 10%;\n"
                                       "background-color: #fdbb2d")
         self.create_btn.setObjectName("create_btn")
+        self.radioButton_olymp = QtWidgets.QRadioButton(parent=self.frame)
+        self.radioButton_olymp.setGeometry(QtCore.QRect(30, 140, 171, 20))
+        font = QtGui.QFont()
+        font.setFamily("Rubik")
+        font.setPointSize(12)
+        self.radioButton_olymp.setFont(font)
+        self.radioButton_olymp.setObjectName("radioButton_olymp")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
@@ -136,6 +144,8 @@ class Ui_MainWindow(object):
         self.img_choose.setText(_translate("MainWindow", "..."))
         self.radioButton_text.setText(_translate("MainWindow", "Текст:"))
         self.create_btn.setText(_translate("MainWindow", "Создать"))
+        self.radioButton_olymp.setText(
+            _translate("MainWindow", "Олимпийский знак"))
 
 
 if __name__ == "__main__":
@@ -146,5 +156,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec())
-
-
